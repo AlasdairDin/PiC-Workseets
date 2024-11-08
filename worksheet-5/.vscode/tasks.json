@@ -1,0 +1,92 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "C/C++: clang++ build active file",
+			"command": "/usr/bin/clang++",
+			"args": [
+                "-std=c++17",
+                "-I./include",
+                "-g",
+                "./src/cipher.cpp",
+				"${file}",
+                "-o",
+				"${fileDirname}/${fileBasenameNoExtension}"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "C/C++: g++ build active file",
+			"command": "g++",
+			"args": [
+				"-std=c++17",
+				"-I./include",
+				"-g",
+				"-D__CMD_VERSION__",
+				"./src/cipher.cpp",
+				"${file}",
+				"-o",
+				"${fileDirname}/${fileBasenameNoExtension}"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "C/C++: cl.exe build active file",
+			"command": "cl.exe",
+			"args": [
+				"/std:c++17",
+				"/Zi",
+				"/EHsc",
+				"/I${fileDirname}\\include",
+				"/D_WEBSOCKETPP_CPP11_TYPE_TRAITS_",
+				"/Fe:",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",
+				"${file}",
+				"${fileDirname}\\src\\cipher.cpp",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build"
+		},
+				{
+			"type": "shell",
+			"label": "C/C++: Labs build",
+			"command": "g++",
+			"args": [
+                "-std=c++17",
+                "-I./include",
+                "-g",
+                "./src/cipher.cpp",
+				"${file}",
+                "-o",
+				"${fileDirname}/${fileBasenameNoExtension}"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		}
+	]
+}

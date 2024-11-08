@@ -1,0 +1,15 @@
+answers.cpp
+answers.txt
+
+
+*.out
+*.exe
+*.pdb
+*.obj
+
+*.dSYM/
+main
+tasks
+game_of_life
+
+.DS_Store

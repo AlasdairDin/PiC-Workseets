@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Caesar Cipher</title>
+		<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+   		<link rel="stylesheet" href="css/normalize.css">
+  		<link rel="stylesheet" href="css/skeleton.css">
+		<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				var shift = 0;
+
+				var connection = new WebSocket('ws://localhost:9922')
+
+				connection.onopen = function() {
+					connection.send(JSON.stringify({ shift: shift }))
+				}
+
+				connection.onmessage = function (evt) {
+					var received_msg = evt.data;
+					$('#ciphertext textarea').val(received_msg);
+					console.log(received_msg)
+				}
+
+				connection.onclose = function() {
+					console.log('closed')
+				}
+
+				function encipher()
+				{
+					var longalpha='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ';
+					var plaintext = $('#plaintext textarea').val();
+					if (connection.readyState === WebSocket.OPEN) {
+						connection.send(JSON.stringify({ shift: shift }))
+						console.log(shift)
+						connection.send(JSON.stringify({ msg: plaintext }))
+					}
+					else {
+						$('#ciphertext textarea').val('');	
+					}
+				};
+
+
+				var alphabet='abcdefghijklmnopqrstuvwxyz';
+				for(var i=0;i<26;i++)
+				{
+					$('#cipher #top').append('<div class="letter">'+alphabet[i]+'</div>');
+				}
+				$('#cipher #top .letter')
+					.clone().appendTo('#letters');
+
+				var o1=$('#cipher #bottom').offset();
+
+				var scroll = 0, oScroll = 0;
+				$('#cover').draggable({
+					axis: 'x',
+					drag: function(e, ui) {
+						var nScroll = $(this).position().left
+						scroll += nScroll - oScroll;
+						oScroll = nScroll;
+						var first = $('#letters .letter:first');
+						var w = first.width();
+						while(scroll < -w && w>0)
+						{
+							first.appendTo('#letters');
+							scroll+=w;
+							shift += 1;
+							first = $('#letters .letter:first');
+							w = first.width();
+						}
+						var last = $('#letters .letter:last');
+						w = last.width();
+						while(scroll > w && w>0)
+						{
+							last.prependTo('#letters');
+							scroll-=w;
+							shift -= 1;
+							last = $('#letters .letter:last');
+							w = last.width();
+						}
+						shift = shift % 26;
+						if(shift<0)
+							shift+=26;
+
+						$('#shift').html('Shift: '+shift);
+						if (connection.readyState === WebSocket.OPEN) {
+							connection.send(JSON.stringify({ shift: shift }))
+						}
+					},
+					stop: function(e,ui) {
+						$(this).css('left',0);
+						scroll = oScroll = 0;
+					}
+				});
+
+				$('#cover').bind('drag',encipher);
+				$('#plaintext').bind('input',encipher);
+
+				encipher();
+			});
+		</script>
+		<style type="text/css">
+			body {
+				background-color: #301f3b;
+				padding-right: 10px;
+				padding-left: 10px;
+			}
+			.title {
+				text-align: center;
+				color: #ccbfd9
+			}
+			#cipher {
+				width: 100%;
+				font-size: 2em;
+			}
+			#cipher .top, #cipher #bottom {
+				clear:both;
+				float:left;
+				width: 26em;
+				padding: 0;
+				height:1.1em;
+			}
+			#cipher #bottom {
+				overflow: hidden;
+				position: relative;
+				background:#301f3b;
+				height:3.0em;
+			}
+
+			#cipher #shift {
+				float: left;
+				color: #de9100
+			}
+
+			#letters {
+			}
+			#cover {
+				position: absolute;
+				width:100%;
+				height:100%;
+			}
+			#cipher .letter {
+				float:left;
+				width: 1em;
+				color: #16a3b6;
+			}
+
+			#plaintext, #ciphertext {
+				width: 50%;
+				float:left;
+			}
+
+			textarea {
+				width: 100%;
+				font-size: 1.5em;
+				font-family: serif;
+				height: 3em;
+				background-color: #7060eb;
+				overflow:hidden;
+			}
+
+			#cryptographer {
+				clear: both;
+				font-size: 1.5em;
+			}
+
+			.fixed-content {
+				top: 10px;
+				left:30px;
+				width: 100%;
+				padding-bottom: 10px;
+				position:fixed;
+				overflow-y:scroll;
+				overflow-x:hidden;
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.navigation {
+				/* fixed keyword is fine too */
+				position: sticky;
+				top: 0;
+				z-index: 100;
+				/* z-index works pretty much like a layer:
+				the higher the z-index value, the greater
+				it will allow the navigation tag to stay on top
+				of other tags */
+			 }
+
+			 hr {
+				display: block;
+				height: 1px;
+				border: 0;
+				border-top: 1px solid#fa612d;
+				margin: 1em 0;
+				padding: 0;
+			}
+
+			p {
+				color: #ccbfd9
+			}
+
+			h5 {
+				color: #49e9a6
+			}
+
+			label {
+				color: #ccbfd9
+			}
+		</style>	
+	</head>
+	<body style="background-color: #301f3b">
+		<div id="fixed-content" class="fixed-content">
+				<h5>UFCFGL-30-1 Programming in C++</h5>
+				<div style="padding-top: 10px;">
+					<a href="./">Home</a>
+				</div>
+			<hr/>
+		</div>
+		<div style="padding-top: 35px;">
+			<hr/>
+			<p>Messages are enciphered by shifting every letter along the alphabet by a fixed amount.</p>
+			<p>Knowing how one letter is enciphered is enough to crack the whole thing.</p>
+			<p>Drag the bottom row of letters about to change the cipher.</p>
+			<p>Write text in the plaintext box and see it enciphered below.</p>
+			</div>
+			<div id="cipher">
+				<div id="top">
+				</div>
+				<br/>
+				<div id="bottom">
+					<div id="cover"></div>
+					<div id="letters"></div>
+				</div>
+				<div id="shift">
+					Shift: 0
+				</div>
+			</div>
+			
+			<form id="cryptographer">
+				<div id="plaintext">
+					<label>Plaintext</label>
+					<br/>
+					<textarea></textarea>
+				</div>
+				<div id="ciphertext">
+					<label>Ciphertext</label>
+					<br/>
+					<textarea></textarea>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
+
+

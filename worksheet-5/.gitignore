@@ -1,0 +1,8 @@
+main
+*.exe
+*.obj
+*.pdb
+*.ilk
+
+*.dSYM/
+.DS_Store

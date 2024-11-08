@@ -1,0 +1,51 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "C/C++: clang++ build active file",
+			"command": "/usr/bin/clang++",
+			"args": [
+								"-std=c++17",
+								"-I./include",
+                "-g",
+								"./tasks/rpn.cpp",
+								"./tasks/stack.cpp",
+								"./tasks/main.cpp",
+                "-o",
+				"main"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "C/C++: cl.exe build active file",
+			"command": "cl.exe",
+			"args": [
+				"/std:c++17",
+				"/Zi",
+				"/EHsc",
+				"/Iinclude",
+				"/D_WEBSOCKETPP_CPP11_TYPE_TRAITS_",
+				"/Fe:",
+				"main.exe",
+				"tasks\\stack.cpp",
+				"tasks\\rpn.cpp",
+				"tasks\\main.cpp",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build"
+		}
+	]
+}

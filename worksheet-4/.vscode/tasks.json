@@ -1,0 +1,83 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "C/C++: clang build active file",
+			"command": "/usr/bin/clang++",
+			"args": [
+				"-std=c++17",
+				"-g",
+				"${file}",
+				"-o",
+				"${fileDirname}/${fileBasenameNoExtension}"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "C/C++ (windows 1)",
+			"command": "cl.exe",
+			"args": [
+					"/std:c++17",
+					"/Zi",
+					"/EHsc",
+					"/Fe:",
+					"${fileDirname}//${fileBasenameNoExtension}.exe",
+					"${file}"
+			],
+			"options": {
+					"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+					"$msCompile"
+			],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "C/C++ (windows 2)",
+			"command": "cl.exe",
+			"args": [
+					"/std:c++17",
+					"/Zi",
+					"/EHsc",
+					"/Fe:",
+					"${fileDirname}/${fileBasenameNoExtension}.exe",
+					"${file}"
+			],
+			"options": {
+					"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+					"$msCompile"
+			],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "C/C++ (windows Labs)",
+			"command": "g++",
+			"args": [
+				"-std=c++17",
+				"-g",
+				"${file}",
+				"-o",
+				"${fileDirname}/${fileBasenameNoExtension}"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		}
+	]
+}
